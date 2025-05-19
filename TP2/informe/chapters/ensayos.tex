@@ -151,10 +151,64 @@ $F_R = 3,0258 $ \\
 
 \end{itemize}
 
-b. Mediciones finales
+b. Mediciones finales \\
 
-i. Regulación de voltaje
+Antes de continuar con las ultimas mediciones, se debera soldar el resto de la placa, osea; el regulador lm317, la fuente auxiliar, las borneras que conectan al potenciometro y el led. A continuacion mediremos la caida de tension en el lm317 y la corriente para llevarlo a su maxima potencia la cual es 15 W, luego mediremos la tension en el vacio y a plena carga para calcular la regulacion de voltaje, a continuacion observaremos la salida a plena carga por el osciloscopio para calcular la tension eficaz del ripple y calcular el factor de ripple, y por ultimo mediremos la temperatura en la carcasa del regulador para poder determinar su temperatura interna.  \\
 
-ii. Factor de ripple
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.70\textwidth]{images/placaMontada.png}
+\end{figure}
 
-iii. Cálculo de temperatura de juntura
+i. Regulación de voltaje. \\
+
+ \begin{tabular}{|c|c|}
+  \hline
+  $V_{vacio}$ & 16,92 V \\ \hline
+  $V_{PlenaCarga}$ & 16,29 V \\ \hline
+\end{tabular} \\
+
+$RV = \dfrac{16,92 - 16,29}{16,29} 100\percent$
+
+$RV = 3,867 $ \\
+
+ii. Factor de ripple. \\
+
+$V_{RippleEficaz} = 353,55 . 10^{-6} V = 353,5 uV $
+
+$F_R = \dfrac{353,5 uV}{16,29 V} 100\percent $
+
+$F_R = 2,1703 . 10^{-3}\percent $ \\
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.70\textwidth]{images/medicionRipple.png}
+  \caption{Visualizacion de riple en osciloscopio}
+\end{figure}
+
+
+iii. Cálculo de temperatura de juntura \\
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.95\textwidth]{images/calculoTemperatura.png}
+  \caption{Calculo de la temperatura}
+\end{figure}
+
+Siendo: \\
+
+$\theta_{jc} = 5\dfrac{\circ C}{W} $ : Resistencia termica de la juntura \\
+
+$T_J = 135 \circ C$ : Temperatura de la juntura \\
+
+$135 \circ C = (5 \dfrac{\circ C}{W} 15,19 W) + T_C $
+
+$135 \circ C - 75 \circ C = T_C$
+
+$T_C = 60 \circ C$ : Temperatura del chip
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=0.70\textwidth]{images/medicionTemperatura.png}
+\end{figure}
+
