@@ -10,35 +10,16 @@ i. En el filtro capacitivo y determinación de parámetros.\\
 
 Punto bajo:
 
-  $V_{vacio} = 17,71 V$
+\begin{tabular}{|c|c|}
+  \hline
+  $V_{vacio}$ & 17,71 V \\ \hline
+  $V_{0,5 A}$ & 15,80 V \\ \hline
+  $V_{0,75 A}$ & 15,27 V \\ \hline    
+  $V_{1 A}$ & 14,63 V \\ \hline
+  $V_{1,25 A}$ & 14,10 V \\ \hline
+  $V_{PlenaCarga}$ & 13,69 V \\ \hline
+\end{tabular} \\
 
-  $V_{0,5A} = 15,80 V$
-  
-  $V_{0,75A} = 15,27 V$ 
-  
-  $V_{1A} = 14,63 V$
-  
-  $V_{1,25A} = 14,10V$
-  
-  $V_{PlenaCarga} = 13,69 V$\\
-
-Para calcular la regulacion de voltaje se utiliza la siguiente formula:
-
-$RV = \dfrac{V_{vacio} - V_{PlenaCarga}}{V_{PlenaCarga}} 100\percent $
-
-$RV = \dfrac{17,71 - 13,69}{13,69} 100\percent = 29,36\percent $\\
-
-La resistencia interna esta dada por:
-
-$R_int = \dfrac{V_{PlenaCarga} - V_{vacio}}{-I_{carga}}$
-
-$R_int = \dfrac{13,69 - 17,71}{-1,5} = 2,68\Omega $\\
-
-Factor de ripple:
-
-$F_R = \dfrac{V_{eficaz}}{V_{PlenaCarga}} 100\percent $
-
-(completar)\\
 
 \begin{figure}[H]
   \begin{tikzpicture}
@@ -56,7 +37,7 @@ $F_R = \dfrac{V_{eficaz}}{V_{PlenaCarga}} 100\percent $
       ymin = 13, ymax = 18,
       thick
       ]
-      \addplot[blue, mark=o, mark size=3pt] coordinates {
+      \addplot[blue, mark=*] coordinates {
             (0, 17.71)
             (0.5, 15.80)
             (0.75, 15.27)
@@ -69,35 +50,106 @@ $F_R = \dfrac{V_{eficaz}}{V_{PlenaCarga}} 100\percent $
 \end{figure}
 
 
-Punto alto: 
-  $V_{vacio} = 36,68 V$
+Punto alto:
 
-  $V_{0,5A} = 31,89 V$
-  
-  $V_{0,75A} = 31,05 V$ 
-  
-  $V_{1A} = 29,83 V$
-  
-  $V_{1,25A} = 28,55 V$
-  
-  $V_{PlenaCarga} = 27,43 V$\\
+ \begin{tabular}{|c|c|}
+  \hline
+  $V_{vacio}$ & 36,86 V \\ \hline
+  $V_{0,5 A}$ & 31,89 V \\ \hline
+  $V_{0,75 A}$ & 31,05 V \\ \hline    
+  $V_{1 A}$ & 29,83 V \\ \hline
+  $V_{1,25 A}$ & 28,55 V \\ \hline
+  $V_{PlenaCarga}$ & 27,47 V \\ \hline
+\end{tabular} \\
 
-Regulacion de voltaje:
+\begin{figure}[H]
+  \begin{tikzpicture}
+    \begin{axis}[
+      axis lines = middle,
+      xlabel = {$I$ [A]},
+      ylabel = {$V$ [V]},
+      domain = 0:1.5,
+      samples = 200,
+      grid = both,
+      width=8.5cm,
+      height=7cm,
+      title = {Grafico Vout vs Iout punto alto},
+      xmin = 0, xmax= 1.6,
+      ymin = 26, ymax = 39,
+      thick
+      ]
+      \addplot[blue, mark=*] coordinates {
+            (0, 36.86)
+            (0.5, 31.89)
+            (0.75, 31.05)
+            (1, 29.3)
+            (1.25, 28.55)
+            (1.5, 27.47)
+      };
+    \end{axis}
+  \end{tikzpicture}
+\end{figure}
+
+ii. Determinación de resistencia interna del transformador más la de los
+diodos. \\
+
+Punto bajo: \\
+
+\begin{itemize}
+
+  \item Para calcular la regulacion de voltaje se utiliza la siguiente formula: \\
+
+$RV = \dfrac{V_{vacio} - V_{PlenaCarga}}{V_{PlenaCarga}} 100\percent $
+
+$RV = \dfrac{17,71 - 13,69}{13,69} 100\percent = 29,36\percent $\\
+
+  \item La resistencia interna esta dada por: \\
+
+$R_int = \dfrac{V_{PlenaCarga} - V_{vacio}}{-I_{carga}}$
+
+$R_int = \dfrac{13,69 - 17,71}{-1,5} = 2,68\Omega $\\
+
+  \item Ahora mediremos el voltaje del ripple tanto con multimetro true RMS, como en el osciloscopio: \\
+
+$V_{RippleMultimetro} = 908 mV$
+
+$V_{RippleOsciloscopio} = 972 mV$
+
+$V_{PicoaPico} = 2,75 V$ \\
+
+  \item Factor de ripple: \\
+
+$F_R = \dfrac{V_{eficaz}}{V_{PlenaCarga}} 100\percent $
+
+$F_R = \dfrac{908 mV}{13,69 V} 100\percent $
+
+$F_R = 6,6325\percent $ \\
+
+Para el punto alto repetiremos las formulas del punto bajo cambiando por los valores correspondientes: \\
+
+  \item Regulacion de voltaje: \\
 
 $RV = \dfrac{36,68 - 27,43}{27,43} 100\percent = 33,72\percent $\\
 
-Resistencia interna:
+  \item Resistencia interna:
 
 $R_int = \dfrac{27,43 - 36,68}{-1,5} = 6,16\Omega $\\
 
-Factor de ripple:
+  \item Ripple:
 
-$F_R = \dfrac{}{} 100\percent $
+$V_{RippleMultimetro} = 0,83 V$
 
-(completar)\\
+$V_{RippleOsciloscopio} = 0,88 V$
 
-ii. Determinación de resistencia interna del transformador más la de los
-diodos.
+$V_{PicoaPico} = 2,5 V$ \\
+
+  \item Factor de ripple:
+
+$F_R = \dfrac{0,83 V}{27,43 V} 100\percent $
+
+$F_R = 3,0258 $ \\
+
+\end{itemize}
 
 b. Mediciones finales
 
