@@ -31,8 +31,228 @@ El transformador tiene dos funciones:
   \node [ocirc] at (SW.in){};
 \end{circuitikz}
 
+En nuestro caso particular, utilizaremos un transformador con punto medio, que a travez de una llave selectora
+nos permitirá elegir entre una tension de entrada a nuestra fuente de $12$ o $24\V$.
+
+\hspace{5mm}
+
+\begin{figure}[h]
+  \centering
+  \begin{circuitikz}
+    \draw (0,2) to[short, o-] ++(1,0)
+    node[transformer core, circuitikz/inductors/coils=6,
+    anchor=A1](T){};
+    \draw (T.A2) to[short, -o] ++(-1,0);
+    \node at ($($(T.A1)!0.5!(T.A2)$) +(-1,0)$) []{$220\V$};
+
+    \draw (T-L2.midtap) to[short, *-] (T.B1 |- T-L2.midtap);
+    \draw (T.B2) to[short, -o] ++(1.2,0);
+    \draw (T.B1) ++(0.6,-0.54) node[spdt, rotate=180](SW){} ;
+    \draw (T.B1) -| (SW.out 2);
+    \draw (T-L2.midtap) -| (SW.out 1);
+    \node [ocirc] at (SW.in){};
+    \node at ($(SW.in)!0.5!(SW.in |- T.B2)$) []{$12/24\V$};
+
+  \end{circuitikz}
+  \caption{Transformador con punto medio}
+\end{figure}
+
+En la sección \ref{sec:filtro} analizaremos el por que de esta decisión.
+
+\newpage
 \section{Rectificador}
+Tiene la función de convertir la tensión alterna en una pulsante.
+
+En nuestro caso utilizaremos un puente rectificador compuesto por diodos 1N5407.
+
+\vspace{5mm}
+
+\begin{figure}[h]
+  \centering
+  \begin{circuitikz} [circuitikz/diodes/scale=0.7]
+    \draw (0,0) coordinate(top bridge) to [full diode, *-*, l={\footnotesize D2}] ++(1.5,-1.5) coordinate(right bridge)
+    to [full diode, *-*, invert, l={\footnotesize D4}] ++(-1.5,-1.5) coordinate (bottom bridge)
+    to [full diode, *-*, invert, l={\footnotesize D3}] ++(-1.5,1.5) coordinate (left bridge)
+    to [full diode, *-*, l={\footnotesize D1}] (0,0);
+
+    \draw (top bridge) to[short, -o] ++(-2.5,0) coordinate(inA);
+    \draw (bottom bridge) to[short, -o] ++(-2.5,0) coordinate(inB);
+    \draw (right bridge) to[short, -o] ++(1,0) coordinate(outA);
+    \draw (left bridge) to[short] ++(0,-2) to[short, -o] ++(4,0) coordinate(outB);
+
+    \node at ($(inA)!0.5!(inB)$) []{$v_{in}$};
+    \node at ($(outA)!0.5!(outB)$) []{$v_{out}$};
+
+  \end{circuitikz}
+  \caption{Puente de diodos}
+\end{figure}
+
+Este circuito es un rectificador de onda completa, es decir que convierte todos los semiciclos en positivos.
+
+\begin{figure}[h]
+  \begin{minipage}[t][5cm][c]{0.5 \textwidth}
+    \centering
+    \begin{tikzpicture}
+      \begin{axis}[
+          axis lines=middle,
+          xlabel={$t$},
+          ylabel={[V]},
+          xticklabels={},
+          yticklabels={},
+          domain=0:730,
+          samples=200,
+          grid=both,
+          width=7cm,
+          height=6cm,
+          ymin=-3, ymax=3,
+          xmin=0, xmax=730,
+        ]
+        \addplot[blue, thick] {2*sin(x)};
+        \addlegendentry{$v_{in}$}
+      \end{axis}
+    \end{tikzpicture}
+  \end{minipage}
+  \begin{minipage}[t][5cm][c]{0.5 \textwidth}
+    \centering
+    \begin{tikzpicture}
+      \begin{axis}[
+          axis lines=middle,
+          xlabel={$t$},
+          xticklabels={},
+          yticklabels={},
+          ylabel={[V]},
+          domain=0:730,
+          samples=200,
+          grid=both,
+          width=7cm,
+          height=6cm,
+          ymin=-3, ymax=3,
+          xmin=0, xmax=730,
+        ]
+        \addplot[red, thick] {abs(2*sin(x))};
+        \addlegendentry{$v_{out}$}
+      \end{axis}
+    \end{tikzpicture}
+  \end{minipage}
+  \caption{señales de entrada y salida}
+\end{figure}
+
+Para comprender su funcionamiento, podemos analizar por separado el comportamiento del circuito durante el semiciclo positivo y el
+semiciclo negativo, considerando que hay una carga conectada.
+
+Durante el semiciclo positivo, el terminal superior de la entrada presenta un mayor potencial que el inferior. En esta condición, los diodos
+D2 y D3 se encuentran polarizados en directa, mientras que D1 y D4 están polarizados en inversa. La corriente fluye desde el terminal
+superior, atravesando el diodo D2, pasando por la carga, luego por el diodo D3, y finalmente hacia el terminal inferior de la entrada.
+
+Durante el semiciclo negativo, el terminal inferior de la entrada se encuentra a mayor potencial que el superior. En este caso, los diodos
+D1 y D4 quedan polarizados en directa, y D2 y D3 en inversa. La corriente fluye desde el terminal inferior, pasando por el diodo D4,
+atravesando la carga en el mismo sentido que en el semiciclo positivo, y continuando por el diodo D1 hasta llegar al terminal superior.
+
+Como resultado, en ambos semiciclos la corriente atraviesa la carga en la misma dirección, lo que permite obtener una señal rectificada
+de onda completa.
+
+\begin{figure}[h]
+  \begin{minipage}[t][8cm][c]{0.5 \textwidth}
+    \centering
+    \begin{circuitikz} [circuitikz/diodes/scale=0.7, american]
+      \draw (0,0) coordinate(top bridge) to [full diode, *-*, l={\footnotesize D2}, f={i}] ++(2,-2) coordinate(right bridge)
+      to [full diode, *-*, invert, l={\footnotesize D4}] ++(-2,-2) coordinate (bottom bridge)
+      to [full diode, *-*, invert, l={\footnotesize D3}, f_<=i ] ++(-2,2) coordinate (left bridge)
+      to [full diode, *-*, l={\footnotesize D1}] (0,0);
+
+      \draw (top bridge) to[short, -o, f_<={i},] ++(-3.5,0) coordinate(inA);
+      \draw (bottom bridge) to[short, -o, f=i] ++(-3.5,0) coordinate(inB);
+      \draw (right bridge) to[short] ++(1,0) coordinate(outA);
+      \draw (left bridge)to[short] ++(-0.3,0) to[short] ++(0,-3) to[short, f_<=i] ++(5.3,0) coordinate(outB);
+
+      \draw (outA) to[R, v_=$v_L$, f=i] (outB);
+
+      \node at ($(inA)!0.5!(inB)$) []{$v_{in}$};
+
+      \node at ($(inA) +(-0.4,0)$) []{+};
+      \node at ($(inB) +(-0.4,0)$) []{-};
+
+    \end{circuitikz}
+    \caption{Semiciclo positivo}
+  \end{minipage}
+  \begin{minipage}[t][8cm][c]{0.5 \textwidth}
+    \centering
+    \begin{circuitikz} [circuitikz/diodes/scale=0.7, american]
+      \draw (0,0) coordinate(top bridge) to [full diode, *-*, l={\footnotesize D2}] ++(2,-2) coordinate(right bridge)
+      to [full diode, *-*, invert, l={\footnotesize D4}, f<={i}] ++(-2,-2) coordinate (bottom bridge)
+      to [full diode, *-*, invert, l={\footnotesize D3}] ++(-2,2) coordinate (left bridge)
+      to [full diode, *-*, l={\footnotesize D1}, f>_={i}] (0,0);
+
+      \draw (top bridge) to[short, -o, f_=i] ++(-3.5,0) coordinate(inA);
+      \draw (bottom bridge) to[short, -o, f<=i] ++(-3.5,0) coordinate(inB);
+      \draw (right bridge) to[short] ++(1,0) coordinate(outA);
+      \draw (left bridge)to[short] ++(-0.3,0) to[short] ++(0,-3) to[short, f_<=i] ++(5.3,0) coordinate(outB);
+
+      \draw (outA) to[R, v_=$v_L$, f = i] (outB);
+
+      \node at ($(inA)!0.5!(inB)$) []{$v_{in}$};
+
+      \node at ($(inA) +(-0.4,0)$) []{-};
+      \node at ($(inB) +(-0.4,0)$) []{+};
+
+    \end{circuitikz}
+    \caption{Semiciclo negativo}
+  \end{minipage}
+\end{figure}
+
+\subsection{Elección de los diodos}
+
+Para dimensionar correctamente los diodos del puente, partimos de que la fuente debe entregar 1,5\,A continuos a la carga. Sin embargo, cada
+par de diodos sólo conduce durante un semiciclo (50\,\% del tiempo), de modo que la \emph{corriente media} que atraviesa cada “rama” del
+puente es:
+
+
+\begin{equation}
+I_{\mathrm{media\;por\;rama}} = 1{,}5\;\mathrm{A} \times 0{,}5 = 0{,}75\;\mathrm{A}.
+\end{equation}
+
+Si usásemos diodos de la serie 1N4001–1N4007 (1\,A de corriente continua), tendríamos un margen de sólo $0{,}25\A$ sobre esa
+corriente media. Además, el regulador LM317, aunque nominalmente entrega 1,5\,A, puede generar picos de hasta 2,1\,A antes
+de activar su protección interna, y esos picos también cruzan el puente de diodos.
+
+Como los diodos de 2\,A no son habituales, elegimos la serie 1N5400–1N5408 (3\,A de corriente continua), que ofrece:
+
+\begin{itemize}
+    \item Suficiente margen sobre los 0,75\,A medios de cada rama.
+    \item Capacidad de soportar picos transitorios sin acercarse a su límite máximo.
+\end{itemize}
+
+De este modo garantizamos un funcionamiento y seguro, minimizando el riesgo de sobrecalentamiento o daño por sobrecorriente.
 
 \section{Filtro}
+\label{sec:filtro}
+La onda pulsante a la salida del rectificador no es apta para alimentar
+equipos electrónicos por ello se le agrega un capacitor de filtro para
+alizarla, la formula para calcular el mismo es:
+
+\begin{equation}
+  C=\frac{I_L}{2 \cdot f_{salida} \cdot \Delta V}
+  \label{eq:filtro}
+\end{equation}
+
+formula extraida del libro Amplificadores Operacionales y Circuitos Integrados Lineales Coughlin-Driscol. Esta formula predice
+muy bien el riple obtenido experimentalmente.
+Siendo $\Delta V$ la tension pico a pico del ripple
+
+En nuestro caso, utilizaremos un capacitor de $3300\uF$. Podemos calcular el valor esperado de $\Delta V$ despejando de \ref{eq:filtro}.
+
+\begin{equation}
+  \begin{aligned}
+    \Delta V&=\frac{I_L}{2 \cdot f_{salida} \cdot C}\\
+    \Delta V&=\frac{1{,}5\A}{2 \cdot 100\Hz \cdot 3300\uF}\\
+    \Delta V&= 2{,}272 \V
+  \end{aligned}
+\end{equation}
 
 \section{Regulador de circuito integrado}
+La funcióones del regualdor son:
+
+\begin{itemize}
+  \item Mantener estable la tensión de salida de la fuente sin importar las variaciones tanto de la corriente de carga como de la red electrica.
+  \item Reducir el ripple en un orden de mil veces.
+\end{itemize}
