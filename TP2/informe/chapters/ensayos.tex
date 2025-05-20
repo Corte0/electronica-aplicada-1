@@ -1,27 +1,31 @@
 \chapter{Ensayos y mediciones}
 
-a. Medición de ripple.\\
+\section{Medición de ripple.}
 
-  Para poder realizar las siguiente mediciones en este primer ensayo, previamente se realizo en la placa la soldadura del puente diodo y el filtro.\\
+Para poder realizar las siguiente mediciones en este primer ensayo, previamente se realizo en la placa la soldadura del puente diodo y el filtro.
 
-i. En el filtro capacitivo y determinación de parámetros.\\
+\subsection{En el filtro capacitivo y determinación de parámetros.}
 
-  Se tomaran medidas de la tension tanto desde el punto bajo (desde 0 hasta 10 V) como desde el punto alto (desde 15 hasta 30 V) variando la corriente desde el vacio (0 A) hasta llegar a plena carga (1,5 A). Con las mediciones vamos a poder calcular los siguientes tres factores: Regulacion de voltaje, resistencia variable y factor de ripple.\\
+Se tomaran medidas de la tension tanto desde el punto bajo (desde 0 hasta 10 V) como desde el punto alto (desde 15 hasta 30 V) variando la corriente desde el vacio (0 A) hasta llegar a plena carga (1,5 A). Con las mediciones vamos a poder calcular los siguientes tres factores: Regulacion de voltaje, resistencia variable y factor de ripple.\\
 
 Punto bajo:
 
-\begin{tabular}{|c|c|}
-  \hline
-  $V_{vacio}$ & 17,71 V \\ \hline
-  $V_{0,5 A}$ & 15,80 V \\ \hline
-  $V_{0,75 A}$ & 15,27 V \\ \hline    
-  $V_{1 A}$ & 14,63 V \\ \hline
-  $V_{1,25 A}$ & 14,10 V \\ \hline
-  $V_{PlenaCarga}$ & 13,69 V \\ \hline
-\end{tabular} \\
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|c|c|}
+    \hline
+    $V_{vacio}$ & 17,71 V \\ \hline
+    $V_{0,5 A}$ & 15,80 V \\ \hline
+    $V_{0,75 A}$ & 15,27 V \\ \hline    
+    $V_{1 A}$ & 14,63 V \\ \hline
+    $V_{1,25 A}$ & 14,10 V \\ \hline
+    $V_{PlenaCarga}$ & 13,69 V \\ \hline
+  \end{tabular}
+\end{table}
 
 
 \begin{figure}[H]
+  \centering
   \begin{tikzpicture}
     \begin{axis}[
       axis lines = middle,
@@ -52,17 +56,21 @@ Punto bajo:
 
 Punto alto:
 
- \begin{tabular}{|c|c|}
-  \hline
-  $V_{vacio}$ & 36,86 V \\ \hline
-  $V_{0,5 A}$ & 31,89 V \\ \hline
-  $V_{0,75 A}$ & 31,05 V \\ \hline    
-  $V_{1 A}$ & 29,83 V \\ \hline
-  $V_{1,25 A}$ & 28,55 V \\ \hline
-  $V_{PlenaCarga}$ & 27,47 V \\ \hline
-\end{tabular} \\
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|c|c|}
+    \hline
+    $V_{vacio}$ & 36,86 V \\ \hline
+    $V_{0,5 A}$ & 31,89 V \\ \hline
+    $V_{0,75 A}$ & 31,05 V \\ \hline    
+    $V_{1 A}$ & 29,83 V \\ \hline
+    $V_{1,25 A}$ & 28,55 V \\ \hline
+    $V_{PlenaCarga}$ & 27,47 V \\ \hline
+  \end{tabular}
+\end{table}
 
 \begin{figure}[H]
+  \centering
   \begin{tikzpicture}
     \begin{axis}[
       axis lines = middle,
@@ -90,8 +98,7 @@ Punto alto:
   \end{tikzpicture}
 \end{figure}
 
-ii. Determinación de resistencia interna del transformador más la de los
-diodos. \\
+\subsection{Determinación de resistencia interna del transformador más la de los diodos.}
 
 Punto bajo: \\
 
@@ -151,7 +158,7 @@ $F_R = 3,0258 $ \\
 
 \end{itemize}
 
-b. Mediciones finales \\
+\section{Mediciones finales.}
 
 Antes de continuar con las ultimas mediciones, se debera soldar el resto de la placa, osea; el regulador lm317, la fuente auxiliar, las borneras que conectan al potenciometro y el led. A continuacion mediremos la caida de tension en el lm317 y la corriente para llevarlo a su maxima potencia la cual es 15 W, luego mediremos la tension en el vacio y a plena carga para calcular la regulacion de voltaje, a continuacion observaremos la salida a plena carga por el osciloscopio para calcular la tension eficaz del ripple y calcular el factor de ripple, y por ultimo mediremos la temperatura en la carcasa del regulador para poder determinar su temperatura interna.  \\
 
@@ -160,19 +167,22 @@ Antes de continuar con las ultimas mediciones, se debera soldar el resto de la p
   \includegraphics[width=0.70\textwidth]{images/placaMontada.png}
 \end{figure}
 
-i. Regulación de voltaje. \\
+\subsection{Regulación de voltaje.}
 
- \begin{tabular}{|c|c|}
-  \hline
-  $V_{vacio}$ & 16,92 V \\ \hline
-  $V_{PlenaCarga}$ & 16,29 V \\ \hline
-\end{tabular} \\
+\begin{table}[H]
+  \centering
+  \begin{tabular}{|c|c|}
+    \hline
+    $V_{vacio}$ & 16,92 V \\ \hline
+    $V_{PlenaCarga}$ & 16,29 V \\ \hline
+  \end{tabular}
+\end{table}
 
 $RV = \dfrac{16,92 - 16,29}{16,29} 100\percent$
 
-$RV = 3,867 $ \\
+$RV = 3,867 $
 
-ii. Factor de ripple. \\
+\subsection{Factor de ripple.}
 
 $V_{RippleEficaz} = 353,55 . 10^{-6} V = 353,5 uV $
 
@@ -187,7 +197,7 @@ $F_R = 2,1703 . 10^{-3}\percent $ \\
 \end{figure}
 
 
-iii. Cálculo de temperatura de juntura \\
+\subsection{Cálculo de temperatura de juntura.}
 
 \begin{figure}[H]
   \centering
@@ -210,5 +220,6 @@ $T_C = 60 \circ C$ : Temperatura del chip
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.70\textwidth]{images/medicionTemperatura.png}
+  \caption{Medicion de la tempera en LM317}
 \end{figure}
 
