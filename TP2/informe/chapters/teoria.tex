@@ -11,6 +11,7 @@ $220V$ en CA hasta llegar a la tension en CC a la salida.
 A contunuación, se explica detaladamente cada uno de estos bloques.
 
 \section{Transformador}
+\label{sec:transformador}
 
 El transformador tiene dos funciones:
 \begin{itemize}
@@ -250,9 +251,127 @@ En nuestro caso, utilizaremos un capacitor de $3300\uF$. Podemos calcular el val
 \end{equation}
 
 \section{Regulador de circuito integrado}
-La funcióones del regualdor son:
+La funciónes del regualdor son:
 
 \begin{itemize}
   \item Mantener estable la tensión de salida de la fuente sin importar las variaciones tanto de la corriente de carga como de la red electrica.
   \item Reducir el ripple en un orden de mil veces.
 \end{itemize}
+
+En nuestra fuente, utilizaremos un LM317 en encapsulado TO-220.
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=0.35\textwidth]{images/LM317-TO220.png}
+  \caption{LM317 encapsulado T0-220}
+\end{figure}
+
+El regulador cuenta con 3 terminales \textbf{IN}, \textbf{OUT} y \textbf{ADJ}.
+
+Su principio de funcionamiento se basa en mantener una tensión constante de referencia $V_{ref} = 1.25\V$ entre la salida y el pin de ajuste, independientemente
+de la tensión de entrada o de la carga conectada. Además, la corriente que circula por el pin ADJ, llamada $I_{adj} = 50 \uA$, también se mantiene constante.
+
+\begin{figure}[h]
+  \centering
+  \begin{circuitikz}
+    \ctikzset{resistors/scale=0.7}
+    \draw  node[rectangle,draw, minimum width=3cm,minimum height=2cm, label={[below]north:LM317}, label={[right]west:IN},
+      label={[above]south:ADJ}, label={[left]east:OUT}](LM317){}  ;
+  
+    \draw (LM317.west) to[short, -o] ++(-1,0) coordinate(inA);
+    \draw (LM317.east) to[short, -*] ++(1.5,0) to[R=$R_1$, f>^=$I_{R_1}$] ++(0,-2.5) coordinate(nodo);
+    \draw (LM317.south) to[short] ++(0,-1.5) to[short, -*, f=$I_{adj}$] (nodo) to[vR=$R_2$] ++(0,-1.5) coordinate(R2s) to[short, *-o] ++(-5.5,0) coordinate (inB);
+    \draw (LM317.east) to[short, -o] ++(3.5,0) coordinate (outA);
+    \draw (R2s) to[short, -o] ++(2,0) coordinate (outB);
+    \draw (R2s) node[ground]{} ;
+
+    \coordinate (p1) at ($(LM317.east)+(1,-0.2)$);
+    \coordinate (p2) at ($(nodo)+(-0.5,0.2)$);
+    \coordinate (p3) at ($(p1) !0.5! (p2)$);
+    \draw [stealth-stealth] (p1) -- (p2);
+    \node at ($(p3) +(-.5,0)$) []{$V_{Ref}$};
+
+    \node at ($(inA) +(-0.4,0)$) []{+};
+    \node at ($(inB) +(-0.4,0)$) []{-};
+    \node at ($(outA) +(0.4,0)$) []{+};
+    \node at ($(outB) +(0.4,0)$) []{-};
+
+    \node at ($(outA)!0.5!(outB)$) []{$V_{out}$};
+    \node at ($(inA)!0.5!(inB)$) []{$v_{in}$};
+
+  \end{circuitikz}
+  \caption{Regulador}
+\end{figure}
+
+
+Entendiendo esto, podemos deducir la ecuación de la tension de salida $V_{out}$.
+
+\begin{equation}
+  \begin{aligned}
+    V_{out} &= V_{ref} + V_{R2}\\
+    V_{out} &= V_{ref} + \left(I_{adj} + \frac{V_{ref}}{R_1}\right)R_2 \\
+    V_{out} &= V_{ref} \left(1 + \frac{R_2}{R_1} \right) + I_{adj}  R_2 \\
+  \end{aligned}
+\end{equation}
+
+Si tenemos en cuenta los valores $R_1=220\ohm$ y $R_2=0-5\kohm$ 
+
+Podemos calcular los valores máximos y minimos de salida del regulador.
+
+\begin{equation}
+  \begin{aligned}
+    V_{out MAX} &= 1{,}25\V \left(1 + \frac{0}{220\ohm} \right) + 50\uA \cdot 0 \\
+    V_{out MIN} &= 1{,}25 \V \\
+    V_{out MIN} &= 1{,}25\V \left(1 + \frac{5\kohm}{220\ohm} \right) + 50\uA \cdot 5\kohm \\
+    V_{out MAX} &= 29{,}9 \V \\
+  \end{aligned}
+\end{equation}
+
+Otros datos importantes obtenidos de la hoja de datos del fabricante son:
+
+\begin{center}
+  $I_{MAX}=1.5\A \quad V_{Diff-MAX}=V_{in}-V_{out}=40\V \quad T_{juntura-max}=125\Celsius \quad P=15\W$ 
+\end{center}
+
+Con estos datos podemos explicar la necesidad de poder alternar entre dos tensiones de transformador planteada
+en la sección \ref{sec:transformador}.
+
+En el caso de tener una $V_{in}=24\V$ y $V_{out}=1{,}25\V$ entregando una corriente de $I=1{,}5\A$ la potencia disipada
+en el LM317 sería:
+
+\begin{equation}
+  \begin{aligned}
+    P &= \left( V_{in} - V_{out}\right) I \\
+    P &= \left( 24\V - 1{,}25\V\right) 1{,}5 \A \\
+    P &= 34{,}125 \W
+  \end{aligned}
+\end{equation}
+
+Lo que supera ampliamente la potencia maxima que puede disipar nuestro regulador.
+
+
+\subsection{Protecciones internas}
+  El regulador LM317 cuenta con diversas protecciones integradas que garantizan su funcionamiento seguro ante
+  condiciones anómalas:
+
+  \begin{itemize}
+      \item \textbf{Protección contra sobrecorriente:} Cuando la corriente de salida supera el límite permitido, 
+        el regulador activa un mecanismo de protección que evita daños internos.
+
+      \item \textbf{Protección térmica:} Si la disipación de calor no es adecuada, debido por ejemplo a un 
+        disipador insuficiente, la temperatura de la unión puede incrementarse más allá del valor seguro. En este caso, se activa una protección interna para evitar el sobrecalentamiento.
+
+      \item \textbf{Límite de operación segura del transistor de salida:} Aunque no se supere el límite de 
+        corriente, si existe una gran diferencia de potencial entre la entrada y la salida, puede ocurrir una 
+        disipación de potencia que exceda la capacidad del regulador. En estas condiciones, también entra en 
+        acción la protección interna.
+  \end{itemize}
+ 
+  \textbf{Nota:} En todos los casos anteriores, cuando se activa alguna protección interna, el regulador 
+    interrumpe temporalmente su operación. Una vez que desaparece la condición que provocó la falla, el 
+    dispositivo retoma su funcionamiento normal de forma automática.
+
+\section{Fuente auxiliar}
+  En algunos escenarios, es necesario que la fuente tenga como tension minima $0\V$ y no ese $1{,}25\V$, por lo
+  que es necesario contrarrestar dicha tension de alguna forma. Por esto, se utilizará una fuente auxiliar
+  que contrarreste estos $1{,}25\V$.
