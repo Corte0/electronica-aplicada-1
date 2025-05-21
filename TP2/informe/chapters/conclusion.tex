@@ -1,1 +1,12 @@
 \chapter{Conclusiones}
+
+\section{Analisis de mediciones}
+
+\subsection{Mediciones con y sin regulador LM317}
+
+Pudimos observar durante las primeras mediciones realizadas, en las cuales se encontraba la fuente sin regulador, se obtuvo un factor de ripple de 3,0258 y una caida de tension aproximada de 10V en el punto de mayor demanda, lo cual evidencia una tension de salida poco constante y dependiente de la carga.
+Por otra parte, las mediciones realizadas con el regulador incorporado, se pudo apreciar una mejora significativa en la calidad de la tension de salida. Se midio un ripple de 353,5 $u V$ , con un factor de ripple inferior al 0,003 $\percent$ valores considerablemente mejores que los estimados inicialmente y plenamente satisfactorios para los requerimientos del proyecto.
+
+\subsection{Complicaciones termicas}
+
+Sin embargo, en el aspecto termico no obtuvimos resultados optimos. Bajo condiciones de maxima carga, el LM317 alcanzo una temperatura de juntura estimada de 135°C, a pesar de la incorporacion de grasa disipadora. Este valor se aproxima al limite termico del componente, por lo que en futuras implementaciones lo ideal seria trabajar con el regulador y un disipador termico de mayor tamano o incorporar una fuente de disipacion forzada.
