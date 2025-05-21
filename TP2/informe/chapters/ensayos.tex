@@ -1,14 +1,16 @@
 \chapter{Ensayos y mediciones}
 
-\section{Medición de ripple.}
+\section{Medición de ripple (sin regulador)}
 
 Para poder realizar las siguiente mediciones en este primer ensayo, previamente se realizo en la placa la soldadura del puente diodo y el filtro.
 
 \subsection{En el filtro capacitivo y determinación de parámetros.}
 
-Se tomaran medidas de la tension tanto desde el punto bajo (desde 0 hasta 10 V) como desde el punto alto (desde 15 hasta 30 V) variando la corriente desde el vacio (0 A) hasta llegar a plena carga (1,5 A). Con las mediciones vamos a poder calcular los siguientes tres factores: Regulacion de voltaje, resistencia variable y factor de ripple.\\
+Se tomaran medidas de la tension tanto en el punto bajo como en el punto alto del transformador variando la
+corriente desde el vacio (0 A) hasta llegar a plena carga (1,5 A). Con las mediciones vamos a poder calcular los siguientes tres factores:
+Regulacion de voltaje, resistencia variable y factor de ripple.\\
 
-Punto bajo:
+\subsubsection{Punto bajo}
 
 \begin{table}[H]
   \centering
@@ -21,6 +23,7 @@ Punto bajo:
     $V_{1,25 A}$ & 14,10 V \\ \hline
     $V_{PlenaCarga}$ & 13,69 V \\ \hline
   \end{tabular}
+  \caption{Mediciones en el punto bajo}
 \end{table}
 
 
@@ -36,7 +39,6 @@ Punto bajo:
       grid = both,
       width=8.5cm,
       height=7cm,
-      title = {Grafico Vout vs Iout punto bajo},
       xmin = 0, xmax= 1.6,
       ymin = 13, ymax = 18,
       thick
@@ -51,10 +53,10 @@ Punto bajo:
       };
     \end{axis}
   \end{tikzpicture}
+  \caption{Vout vs Iout punto bajo}
 \end{figure}
 
-
-Punto alto:
+\subsubsection{Punto alto}
 
 \begin{table}[H]
   \centering
@@ -67,6 +69,7 @@ Punto alto:
     $V_{1,25 A}$ & 28,55 V \\ \hline
     $V_{PlenaCarga}$ & 27,47 V \\ \hline
   \end{tabular}
+  \caption{Mediciones en el punto alto}
 \end{table}
 
 \begin{figure}[H]
@@ -100,67 +103,94 @@ Punto alto:
 
 \subsection{Determinación de resistencia interna del transformador más la de los diodos.}
 
-Punto bajo: \\
+\subsubsection{Punto bajo}
 
-\begin{itemize}
+Para calcular la regulacion de voltaje se utiliza la siguiente formula:
 
-  \item Para calcular la regulacion de voltaje se utiliza la siguiente formula: \\
+\begin{equation}
+  \begin{aligned}
+    RV &= \dfrac{V_{vacio} - V_{PlenaCarga}}{V_{PlenaCarga}} 100\percent \\
+    RV &= \dfrac{17,71\V - 13,69\V}{13,69\V} 100\percent = 29,36\percent
+  \end{aligned}
+\end{equation}
 
-$RV = \dfrac{V_{vacio} - V_{PlenaCarga}}{V_{PlenaCarga}} 100\percent $
+La resistencia interna esta dada por:
 
-$RV = \dfrac{17,71 - 13,69}{13,69} 100\percent = 29,36\percent $\\
+\begin{equation}
+  \begin{aligned}
+    R_{int} &= \dfrac{V_{PlenaCarga} - V_{vacio}}{-I_{carga}}\\
+    R_{int} &= \dfrac{13,69\V - 17,71\V}{-1,5\A} = 2,68\ohm
+  \end{aligned}
+\end{equation}
 
-  \item La resistencia interna esta dada por: \\
+Ahora mediremos el voltaje del ripple tanto con multimetro true RMS, como en el osciloscopio:
 
-$R_int = \dfrac{V_{PlenaCarga} - V_{vacio}}{-I_{carga}}$
+\begin{equation}
+  V_{RippleMultimetro} = 908 mV
+\end{equation}
+\begin{equation}
+  V_{RippleOsciloscopio} = 972 mV
+\end{equation}
+\begin{equation}
+  V_{PicoaPico} = 2,75 V
+\end{equation}
 
-$R_int = \dfrac{13,69 - 17,71}{-1,5} = 2,68\Omega $\\
+Factor de ripple:
 
-  \item Ahora mediremos el voltaje del ripple tanto con multimetro true RMS, como en el osciloscopio: \\
+\begin{equation}
+  \begin{aligned}
+    F_R &= \dfrac{V_{eficaz}}{V_{PlenaCarga}} 100\percent\\
+    F_R &= \dfrac{908 mV}{13,69 V} 100\percent\\
+    F_R &= 6,6325\percent
+  \end{aligned}
+\end{equation}
 
-$V_{RippleMultimetro} = 908 mV$
-
-$V_{RippleOsciloscopio} = 972 mV$
-
-$V_{PicoaPico} = 2,75 V$ \\
-
-  \item Factor de ripple: \\
-
-$F_R = \dfrac{V_{eficaz}}{V_{PlenaCarga}} 100\percent $
-
-$F_R = \dfrac{908 mV}{13,69 V} 100\percent $
-
-$F_R = 6,6325\percent $ \\
-
+\subsubsection{Punto alto}
 Para el punto alto repetiremos las formulas del punto bajo cambiando por los valores correspondientes: \\
 
-  \item Regulacion de voltaje: \\
+Regulacion de voltaje:
 
-$RV = \dfrac{36,68 - 27,43}{27,43} 100\percent = 33,72\percent $\\
+\begin{equation}
+  RV = \dfrac{36,68\V - 27,43\V}{27,43\A} 100\percent = 33,72\percent
+\end{equation}
 
-  \item Resistencia interna:
+Resistencia interna:
 
-$R_int = \dfrac{27,43 - 36,68}{-1,5} = 6,16\Omega $\\
+\begin{equation}
+  R_{int} = \dfrac{27,43\V - 36,68\V}{-1,5\A} = 6,16\ohm
+\end{equation}
 
-  \item Ripple:
+Ripple:
 
-$V_{RippleMultimetro} = 0,83 V$
+\begin{equation}
+  V_{RippleMultimetro} = 0,83 V
+\end{equation}
 
-$V_{RippleOsciloscopio} = 0,88 V$
+\begin{equation}
+  V_{RippleOsciloscopio} = 0,88 V
+\end{equation}
 
-$V_{PicoaPico} = 2,5 V$ \\
+\begin{equation}
+  V_{PicoaPico} = 2,5 V
+\end{equation}
 
-  \item Factor de ripple:
+Factor de rippple:
 
-$F_R = \dfrac{0,83 V}{27,43 V} 100\percent $
+\begin{equation}
+  \begin{aligned}
+    F_R &= \dfrac{0,83 V}{27,43 V} 100\percent\\
+    F_R &= 3,0258
+  \end{aligned}
+\end{equation}
 
-$F_R = 3,0258 $ \\
 
-\end{itemize}
+\section{Mediciones finales (con regulador)}
 
-\section{Mediciones finales.}
-
-Antes de continuar con las ultimas mediciones, se debera soldar el resto de la placa, osea; el regulador lm317, la fuente auxiliar, las borneras que conectan al potenciometro y el led. A continuacion mediremos la caida de tension en el lm317 y la corriente para llevarlo a su maxima potencia la cual es 15 W, luego mediremos la tension en el vacio y a plena carga para calcular la regulacion de voltaje, a continuacion observaremos la salida a plena carga por el osciloscopio para calcular la tension eficaz del ripple y calcular el factor de ripple, y por ultimo mediremos la temperatura en la carcasa del regulador para poder determinar su temperatura interna.  \\
+A continuación, se llevarán a cabo una serie de mediciones destinadas a verificar el correcto funcionamiento del regulador LM317 en la
+fuente montada. Estas pruebas incluyen la medición de caída de tensión y corriente para alcanzar su potencia máxima, análisis de la
+regulación de voltaje tanto en vacío como a plena carga, evaluación del ripple mediante osciloscopio y cálculo de su factor, así como la
+medición de temperatura en el encapsulado del regulador para estimar su temperatura interna. Estas mediciones permitirán validar el
+desempeño eléctrico y térmico del circuito en condiciones reales de operación.
 
 \begin{figure}[h]
   \centering
@@ -178,17 +208,25 @@ Antes de continuar con las ultimas mediciones, se debera soldar el resto de la p
   \end{tabular}
 \end{table}
 
-$RV = \dfrac{16,92 - 16,29}{16,29} 100\percent$
-
-$RV = 3,867 $
+\begin{equation}
+  \begin{aligned}
+    RV &= \dfrac{16,92 - 16,29}{16,29} 100\percent\\
+    RV &= 3,867
+  \end{aligned}
+\end{equation}
 
 \subsection{Factor de ripple.}
 
-$V_{RippleEficaz} = 353,55 . 10^{-6} V = 353,5 uV $
+\begin{equation}
+  V_{RippleEficaz} = 353,55 . 10^{-6} V = 353,5 uV 
+\end{equation}
 
-$F_R = \dfrac{353,5 uV}{16,29 V} 100\percent $
-
-$F_R = 2,1703 . 10^{-3}\percent $ \\
+\begin{equation}
+  \begin{aligned}
+    F_R &= \dfrac{353,5 uV}{16,29 V} 100\percent\\
+    F_R &= 2,1703 . 10^{-3}\percent
+  \end{aligned}
+\end{equation}
 
 \begin{figure}[H]
   \centering
@@ -204,6 +242,10 @@ $F_R = 2,1703 . 10^{-3}\percent $ \\
   \includegraphics[width=0.95\textwidth]{images/calculoTemperatura.png}
   \caption{Calculo de la temperatura}
 \end{figure}
+
+\begin{equation}
+  T_J - T_C = \theta_{JC} \times P_D \quad \Rightarrow \quad T_J = \theta_{JC} \times P_D + T_C
+\end{equation}
 
 Siendo: \\
 
