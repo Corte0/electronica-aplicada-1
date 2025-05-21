@@ -19,19 +19,6 @@ El transformador tiene dos funciones:
   \item Reducir la tension de entrada al valor necesario para la fuente.
 \end{itemize}
 
-\begin{circuitikz}
-  \draw (0,0) to [sV] ++(0,2) -- ++(1,0)
-  node[transformer core, circuitikz/inductors/coils=6,
-  anchor=A1](T){};
-  \draw (T.A2) -| (0,0);
-  \draw (T-L2.midtap) to[short, *-] (T.B1 |- T-L2.midtap);
-  \draw (T.B2) to[short, -o] ++(1.2,0);
-  \draw (T.B1) ++(0.6,-0.55) node[spdt, rotate=180](SW){} ;
-  \draw (T.B1) -| (SW.out 2);
-  \draw (T-L2.midtap) -| (SW.out 1);
-  \node [ocirc] at (SW.in){};
-\end{circuitikz}
-
 En nuestro caso particular, utilizaremos un transformador con punto medio, que a travez de una llave selectora
 nos permitirá elegir entre una tension de entrada a nuestra fuente de $12$ o $24\V$.
 
