@@ -1,26 +1,26 @@
 \chapter{Planteamiento e introducción teórica}
 
 El siguiente diagrame en bloques sintetiza las distintas etapas de la fuente, Desde la entrada de
-$220V$ en CA hasta llegar a la tension en CC a la salida.
+$220V$ en CA hasta llegar a la tensión en CC a la salida.
 
 \begin{figure}[h]
   \includegraphics[width=0.95\textwidth]{images/diagramaBloques.png}
   \caption{Diagrama en bloques}
 \end{figure}
 
-A contunuación, se explica detaladamente cada uno de estos bloques.
+A continuación, se explica detalladamente cada uno de estos bloques.
 
 \section{Transformador}
 \label{sec:transformador}
 
 El transformador tiene dos funciones:
 \begin{itemize}
-  \item Aislar galvánicamente el circuito de la red electrica.
-  \item Reducir la tension de entrada al valor necesario para la fuente.
+  \item Aislar galvánicamente el circuito de la red eléctrica.
+  \item Reducir la tensión de entrada al valor necesario para la fuente.
 \end{itemize}
 
-En nuestro caso particular, utilizaremos un transformador con punto medio, que a travez de una llave selectora
-nos permitirá elegir entre una tension de entrada a nuestra fuente de $12$ o $24\V$.
+En nuestro caso particular, utilizaremos un transformador con punto medio, que a través de una llave selectora
+nos permitirá elegir entre una tensión de entrada a nuestra fuente de $12$ o $24\V$.
 
 \hspace{5mm}
 
@@ -75,7 +75,7 @@ En nuestro caso utilizaremos un puente rectificador compuesto por diodos 1N5407.
   \caption{Puente de diodos}
 \end{figure}
 
-Este circuito es un rectificador de onda completa, es decir que convierte todos los semiciclos en positivos.
+Este circuito es un rectificador de onda completa, es decir que convierte todos los semi ciclos en positivos.
 
 \begin{figure}[h]
   \begin{minipage}[t][5cm][c]{0.5 \textwidth}
@@ -125,18 +125,18 @@ Este circuito es un rectificador de onda completa, es decir que convierte todos 
   \caption{señales de entrada y salida}
 \end{figure}
 
-Para comprender su funcionamiento, podemos analizar por separado el comportamiento del circuito durante el semiciclo positivo y el
-semiciclo negativo, considerando que hay una carga conectada.
+Para comprender su funcionamiento, podemos analizar por separado el comportamiento del circuito durante el semi ciclo positivo y el
+semi ciclo negativo, considerando que hay una carga conectada.
 
-Durante el semiciclo positivo, el terminal superior de la entrada presenta un mayor potencial que el inferior. En esta condición, los diodos
+Durante el semi ciclo positivo, el terminal superior de la entrada presenta un mayor potencial que el inferior. En esta condición, los diodos
 D2 y D3 se encuentran polarizados en directa, mientras que D1 y D4 están polarizados en inversa. La corriente fluye desde el terminal
 superior, atravesando el diodo D2, pasando por la carga, luego por el diodo D3, y finalmente hacia el terminal inferior de la entrada.
 
-Durante el semiciclo negativo, el terminal inferior de la entrada se encuentra a mayor potencial que el superior. En este caso, los diodos
+Durante el semi ciclo negativo, el terminal inferior de la entrada se encuentra a mayor potencial que el superior. En este caso, los diodos
 D1 y D4 quedan polarizados en directa, y D2 y D3 en inversa. La corriente fluye desde el terminal inferior, pasando por el diodo D4,
-atravesando la carga en el mismo sentido que en el semiciclo positivo, y continuando por el diodo D1 hasta llegar al terminal superior.
+atravesando la carga en el mismo sentido que en el semi ciclo positivo, y continuando por el diodo D1 hasta llegar al terminal superior.
 
-Como resultado, en ambos semiciclos la corriente atraviesa la carga en la misma dirección, lo que permite obtener una señal rectificada
+Como resultado, en ambos semi ciclos la corriente atraviesa la carga en la misma dirección, lo que permite obtener una señal rectificada
 de onda completa.
 
 \begin{figure}[h]
@@ -191,7 +191,7 @@ de onda completa.
 \subsection{Elección de los diodos}
 
 Para dimensionar correctamente los diodos del puente, partimos de que la fuente debe entregar 1,5\,A continuos a la carga. Sin embargo, cada
-par de diodos sólo conduce durante un semiciclo (50\,\% del tiempo), de modo que la \emph{corriente media} que atraviesa cada “rama” del
+par de diodos sólo conduce durante un semi ciclo (50\,\% del tiempo), de modo que la \emph{corriente media} que atraviesa cada “rama” del
 puente es:
 
 
@@ -216,16 +216,16 @@ De este modo garantizamos un funcionamiento y seguro, minimizando el riesgo de s
 \label{sec:filtro}
 La onda pulsante a la salida del rectificador no es apta para alimentar
 equipos electrónicos por ello se le agrega un capacitor de filtro para
-alizarla, la formula para calcular el mismo es:
+alisarla, la formula para calcular el mismo es:
 
 \begin{equation}
   C=\frac{I_L}{2 \cdot f_{salida} \cdot \Delta V}
   \label{eq:filtro}
 \end{equation}
 
-formula extraida del libro Amplificadores Operacionales y Circuitos Integrados Lineales Coughlin-Driscol. Esta formula predice
-muy bien el riple obtenido experimentalmente.
-Siendo $\Delta V$ la tension pico a pico del ripple
+Fórmula extraída del libro Amplificadores Operacionales y Circuitos Integrados Lineales Coughlin-Driscol. Esta formula predice
+muy bien el ripple obtenido experimentalmente.
+Siendo $\Delta V$ la tensión pico a pico del ripple
 
 En nuestro caso, utilizaremos un capacitor de $3300\uF$. Podemos calcular el valor esperado de $\Delta V$ despejando de \ref{eq:filtro}.
 
@@ -238,10 +238,10 @@ En nuestro caso, utilizaremos un capacitor de $3300\uF$. Podemos calcular el val
 \end{equation}
 
 \section{Regulador de circuito integrado}
-La funciónes del regualdor son:
+La funciones del regulador son:
 
 \begin{itemize}
-  \item Mantener estable la tensión de salida de la fuente sin importar las variaciones tanto de la corriente de carga como de la red electrica.
+  \item Mantener estable la tensión de salida de la fuente sin importar las variaciones tanto de la corriente de carga como de la red eléctrica.
   \item Reducir el ripple en un orden de mil veces.
 \end{itemize}
 
@@ -291,7 +291,7 @@ de la tensión de entrada o de la carga conectada. Además, la corriente que cir
 \end{figure}
 
 
-Entendiendo esto, podemos deducir la ecuación de la tension de salida $V_{out}$.
+Entendiendo esto, podemos deducir la ecuación de la tensión de salida $V_{out}$.
 
 \begin{equation}
   \begin{aligned}
@@ -303,7 +303,7 @@ Entendiendo esto, podemos deducir la ecuación de la tension de salida $V_{out}$
 
 Si tenemos en cuenta los valores $R_1=220\ohm$ y $R_2=0-5\kohm$ 
 
-Podemos calcular los valores máximos y minimos de salida del regulador.
+Podemos calcular los valores máximos y mínimos de salida del regulador.
 
 \begin{equation}
   \begin{aligned}
@@ -334,7 +334,7 @@ en el LM317 sería:
   \end{aligned}
 \end{equation}
 
-Lo que supera ampliamente la potencia maxima que puede disipar nuestro regulador.
+Lo que supera ampliamente la potencia máxima que puede disipar nuestro regulador.
 
 
 \subsection{Protecciones internas}
@@ -359,6 +359,6 @@ Lo que supera ampliamente la potencia maxima que puede disipar nuestro regulador
     dispositivo retoma su funcionamiento normal de forma automática.
 
 \section{Fuente auxiliar}
-  En algunos escenarios, es necesario que la fuente tenga como tension minima $0\V$ y no ese $1{,}25\V$, por lo
-  que es necesario contrarrestar dicha tension de alguna forma. Por esto, se utilizará una fuente auxiliar
+  En algunos escenarios, es necesario que la fuente tenga como tensión mínima $0\V$ y no ese $1{,}25\V$, por lo
+  que es necesario contrarrestar dicha tensión de alguna forma. Por esto, se utilizará una fuente auxiliar
   que contrarreste estos $1{,}25\V$.
